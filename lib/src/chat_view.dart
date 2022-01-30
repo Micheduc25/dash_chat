@@ -188,6 +188,10 @@ class DashChat extends StatefulWidget {
   /// show a list of buttons like file image just like in Slack app.
   final Widget Function()? inputFooterBuilder;
 
+  /// A Widget that will be shown below the [inputFooterBuilder] like you can show
+  /// an emoji keyboard
+  final Widget Function()? footerBuilder;
+
   /// Padding for the [MessageListView].
   final EdgeInsetsGeometry messageContainerPadding;
 
@@ -341,6 +345,7 @@ class DashChat extends StatefulWidget {
     this.chatFooterBuilder,
     this.messageBuilder,
     this.inputFooterBuilder,
+    this.footerBuilder,
     this.sendButtonBuilder,
     this.dateBuilder,
     this.messageImageBuilder,
@@ -593,7 +598,9 @@ class DashChatState extends State<DashChat> {
                         focusNode: inputFocusNode,
                         reverse: widget.inverted,
                       ),
-                    )
+                    ),
+                  if (widget.footerBuilder != null)
+                    SafeArea(child: widget.footerBuilder!())
                 ],
               ),
               if (visible && !_initialLoad)
